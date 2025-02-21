@@ -1,0 +1,43 @@
+server:
+  port : 8080
+  servlet:
+    context-path: /freeclassroom
+
+file:
+  base-dir: uploads
+  image-dir: images
+  document-dir: documents
+  video-dir: videos
+  other-dir : other
+
+
+
+spring:
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/freeclassroom
+    username: root
+    password: 1942004anh
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+  jwt:
+    signerKey: BvniRriiBDSsZEp8ZpkLqOnOuCfRhi+l8JVPmMzFim31u8SR2aYV1Nk0yvYSlIiy
+
+
+  logging:
+    level:
+      org.springframework.security: DEBUG
+
+
+

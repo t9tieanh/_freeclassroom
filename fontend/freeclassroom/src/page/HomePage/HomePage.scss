@@ -1,0 +1,21 @@
+// .form-label {
+//     font-style: italic;
+// }
+// /* Màu khi chọn */
+// .btn-check:checked + .btn-secondary {
+//     background-color: #007bff; /* Xanh dương đậm */
+//     border-color: #007bff;
+//     color: #fff; /* Chữ trắng cho dễ đọc */
+// }
+
+// /* Màu khi không chọn */
+// .btn-check:not(:checked) + .btn-secondary {
+//     background-color: #6c757d; /* Xám nhạt */
+//     border-color: #6c757d;
+//     color: #fff; /* Chữ trắng cho dễ đọc */
+// }
+
+// /* Màu của checkmark */
+// .btn-check:checked + .btn-secondary::after {
+//     background-color: #fff; /* Màu checkmark */
+// }

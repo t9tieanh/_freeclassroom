@@ -1,0 +1,16 @@
+.nav-item {
+    display: flex;
+    justify-content: space-between; /* Giãn đều các mục */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    flex-wrap: nowrap; /* Không cho phép xuống dòng */
+    border-radius: 5px;
+
+    &:hover {
+        background-color: rgb(202, 202, 206); // Thay đổi màu khi hover
+    }
+    
+}
+
+.nav-signup {
+    width: 130px !important;
+}
