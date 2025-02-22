@@ -2,9 +2,11 @@ package com.freeclassroom.freeclassroom.controller;
 
 import com.freeclassroom.freeclassroom.dto.request.AuthenticationRequest;
 import com.freeclassroom.freeclassroom.dto.request.UserCreationRequest;
+import com.freeclassroom.freeclassroom.dto.request.VerifyOtpRequest;
 import com.freeclassroom.freeclassroom.dto.response.ApiResponse;
 import com.freeclassroom.freeclassroom.dto.response.AuthenticationResponse;
 import com.freeclassroom.freeclassroom.dto.response.UserCreationResponse;
+import com.freeclassroom.freeclassroom.dto.response.VerifyOtpResponse;
 import com.freeclassroom.freeclassroom.service.auth.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
@@ -30,6 +32,18 @@ public class AuthenticationController {
         return ApiResponse.<UserCreationResponse>builder()
                 .code(200)
                 .message("Account has been created, please enter the OTP code sent to your email to activate account")
+                .result(response)
+                .build();
+    }
+
+    @PostMapping("verify-otp")
+    public ApiResponse<VerifyOtpResponse> verifyOtp(@RequestBody VerifyOtpRequest verifyOtpRequest) throws IOException {
+
+        VerifyOtpResponse response = authenticationService.verifyOTP(verifyOtpRequest);
+
+        return ApiResponse.<VerifyOtpResponse>builder()
+                .code(200)
+                .message("Your account has been activated, please log in again")
                 .result(response)
                 .build();
     }

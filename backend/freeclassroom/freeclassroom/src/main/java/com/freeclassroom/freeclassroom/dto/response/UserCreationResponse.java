@@ -2,6 +2,7 @@ package com.freeclassroom.freeclassroom.dto.response;
 
 import com.freeclassroom.freeclassroom.entity.account.EnumAccountStatus;
 import com.freeclassroom.freeclassroom.entity.account.EnumRole;
+import com.freeclassroom.freeclassroom.utils.OTP;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,12 +13,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationResponse {
     String email;
-    String image;
-    String name;
-    String phone;
-
+//    String image;
+//    String name;
+//    String phone;
+//
     String username;
-    String ggId;
-    EnumRole role;
-    EnumAccountStatus status;
+//    String ggId;
+//    EnumRole role;
+//    EnumAccountStatus status;
 }

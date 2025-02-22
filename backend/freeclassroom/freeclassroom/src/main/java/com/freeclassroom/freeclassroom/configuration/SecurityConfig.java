@@ -20,7 +20,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/auth/sign-up", "/auth/login", "/api/files"};
+    private final String[] PUBLIC_ENDPOINTS = {"/auth/sign-up", "/auth/login", "/api/files","/auth/verify-otp"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {

@@ -2,9 +2,12 @@ package com.freeclassroom.freeclassroom.service.auth;
 
 import com.freeclassroom.freeclassroom.dto.request.AuthenticationRequest;
 import com.freeclassroom.freeclassroom.dto.request.UserCreationRequest;
+import com.freeclassroom.freeclassroom.dto.request.VerifyOtpRequest;
 import com.freeclassroom.freeclassroom.dto.response.AuthenticationResponse;
 import com.freeclassroom.freeclassroom.dto.response.UserCreationResponse;
+import com.freeclassroom.freeclassroom.dto.response.VerifyOtpResponse;
 import com.freeclassroom.freeclassroom.entity.account.AccountEntity;
+import com.freeclassroom.freeclassroom.entity.account.EnumAccountStatus;
 import com.freeclassroom.freeclassroom.entity.account.EnumRole;
 import com.freeclassroom.freeclassroom.entity.user.StudentEntity;
 import com.freeclassroom.freeclassroom.entity.user.TeacherEntity;
@@ -17,6 +20,7 @@ import com.freeclassroom.freeclassroom.repository.AccountRepository;
 import com.freeclassroom.freeclassroom.repository.StudentRespository;
 import com.freeclassroom.freeclassroom.repository.TeacherRepository;
 import com.freeclassroom.freeclassroom.service.utils.FileStorageService;
+import com.freeclassroom.freeclassroom.service.utils.OtpService;
 import com.freeclassroom.freeclassroom.utils.JwtUtils;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
@@ -43,6 +47,8 @@ public class AuthenticationService {
 
     PasswordEncoder passwordEncoder;
     JwtUtils jwtUtils;
+
+    OtpService otpService;
 
     FileStorageService fileStorageService;
 
@@ -74,16 +80,21 @@ public class AuthenticationService {
         // lưu ảnh người dùng
         if (userCreationRequest.getImageFile() != null)
             userCreationRequest.setImage(fileStorageService.storeImage(userCreationRequest.getImageFile()));
-        //
 
+        // mã hóa pass và set status
         userCreationRequest.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
+        userCreationRequest.setStatus(EnumAccountStatus.NOT_ACTIVE);
 
-        if (userCreationRequest.getRole() == EnumRole.STUDENT)
-           return signUpForStudent(userCreationRequest);
-        else if (userCreationRequest.getRole() == EnumRole.TEACHER)
-            return signUpForTeacher(userCreationRequest);
-        else throw new CustomExeption(ErrorCode.INVALID_KEY);
+        UserCreationResponse userCreationResponse;
 
+        // lưu vào db
+        userCreationResponse = (userCreationRequest.getRole() == EnumRole.STUDENT) ? signUpForStudent(userCreationRequest)
+                : signUpForTeacher(userCreationRequest);
+
+        // tạo otp và gửi chúng đi xác nhân
+        otpService.createOTP(userCreationResponse.getEmail());
+
+        return userCreationResponse;
     }
 
     @Transactional
@@ -114,6 +125,22 @@ public class AuthenticationService {
         accountMapper.updateAccountResponse(newAccount, userCreationResponse);
 
         return userCreationResponse;
+    }
+
+    public VerifyOtpResponse verifyOTP (VerifyOtpRequest request) {
+
+        boolean result = otpService.validateOtp(request.getOtp());
+        if (result) {
+            AccountEntity account = accountRepository.findByUsername(request.getUsername()).orElseThrow(
+                    () -> new CustomExeption(ErrorCode.USER_NOT_FOUND)
+            );
+            account.setStatus(EnumAccountStatus.ACTIVE);
+            accountRepository.save(account);
+        }
+
+        return VerifyOtpResponse.builder()
+                .valid(result)
+                .build();
     }
 
 }
