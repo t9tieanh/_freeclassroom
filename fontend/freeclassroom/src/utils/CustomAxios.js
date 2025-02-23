@@ -7,6 +7,10 @@ const instance = axios.create({
     baseURL: 'http://localhost:8080/freeclassroom',
 });
 
+
+instance.defaults.withCredentials = true; 
+
+
 instance.interceptors.request.use(function (config) {
 
     // const accessToken = store.getState()?.account.account?.access_token
@@ -27,13 +31,13 @@ instance.interceptors.response.use(function (response) {
     NProgress.done();
     console.log(response);
 
-    return response;
+    return response?.data;
 }, function (error) {
     NProgress.done();
 
     console.log('error',error)
 
-    return error
+    return error?.response?.data
 });
 
 export default instance;

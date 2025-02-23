@@ -3,9 +3,13 @@ import "mdbootstrap/css/mdb.min.css";
 import  "./Register.scss";
 import {clsx} from "clsx";
 import { toast } from 'react-toastify';
-import signUp from "../../../service/auth/AuthenticationService";
+import { signUp } from "../../../service/auth/AuthenticationService";
+import { useDispatch } from "react-redux";
+import { doSaveOtp } from "../../../redux/action/verifyOtpAction";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+
     const [formData, setFormData] = useState({
         name: "",
         username:"",
@@ -16,6 +20,10 @@ const Register = () => {
         role: "TEACHER",
         file: null,
     });
+
+    const navigator = useNavigate()
+
+    const [isLoadingVerify,setIsLoadingVerify] = useState(false)
 
     const [imgUrl,setImgUrl] = useState("https://i.pinimg.com/236x/e6/60/85/e66085932a4b3b411854aff54574ecd6.jpg")
 
@@ -33,17 +41,29 @@ const Register = () => {
         setFormData({ ...formData, file: e.target.files[0] });
     };
 
+    const dispatch = useDispatch()
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         
-        if (formData.password !== formData.confirmPassword)   
+        if (formData.password !== formData.confirmPassword){
             toast.error("Password does not match!");
+            return
+        }
+
+        setIsLoadingVerify(true)
 
         const data = await signUp(formData.file, formData.email, formData.name, formData.phone, formData.username, formData.password, formData.role)
 
-        if (data && data.code && data.code == 200) 
-            toast.success(data.message)
-        else toast.error(data.message)
+        setIsLoadingVerify(false)
+
+        if (data && data.code && data.code == 200) {
+            console.log(data?.result?.username)
+            dispatch(doSaveOtp(data?.result?.username))
+            toast.success(data?.message)
+            navigator("/verify-otp")
+        }
+        else toast.error(data?.message)
 
     };
 
@@ -179,6 +199,7 @@ const Register = () => {
                                         </div>
 
                                         <button type="submit" className="btn btn-primary btn-block mb-4">
+                                            {isLoadingVerify && <i class="fa-solid fa-spinner loaderIcon" style={{marginRight:"10px"}}> </i>} 
                                             Sign up
                                         </button>
 

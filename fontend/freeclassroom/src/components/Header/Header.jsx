@@ -4,12 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { use } from "react";
 import "./Header.scss";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-
+import { useSelector, useDispatch } from "react-redux";
+import { doDeleteUser } from "../../redux/action/updateUserAction";
+import { toast } from "react-toastify";
 
 
 const Header = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const isAuthentication = useSelector(state => state.account.isAuthentication)
+  const account = useSelector(state => state.account.account)
+
+  const handleLogout = () => {
+    dispatch(doDeleteUser())
+    toast.success("Log out success")
+  }
 
   return (
     <>
@@ -30,49 +40,74 @@ const Header = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          
-          <div className="collapse navbar-collapse" id="navbarNav">
-            
 
-            <div className="container">
-            <div className="row align-items-center">
+          { isAuthentication && 
 
-            <ul className="navbar-nav ml-auto" style={{width: "fit-content"}}>
+                <div className="collapse navbar-collapse" id="navbarNav">
+                              
 
-            <li className="nav-item col" >
-                <a className="nav-link" href="#" tabIndex="-1" aria-disabled="true" style={{width: "220px"}}>
-                  Welcome to freeclassroom
-                </a>
-              </li>
+                <div className="container">
+                <div className="row align-items-center">
 
-                <li className="nav-item active col nav-signup" onClick={() => navigate("/register")}>
-                  <i className="fas fa-user-plus"></i> Sign up
-                </li>
-                <li className="nav-item active col" onClick={() => navigate("/login")}>
-                    <i className="fas fa-sign-in-alt" ></i> Login
-                </li>
+                <ul className="navbar-nav ml-auto" style={{width: "fit-content"}}>
+
+                  <li className="nav-item col">
+                    <a className="nav-link" href="#" tabindex="-1" aria-disabled="true" style={{width: "200px"}}>Welcome {account.username}</a>
+                  </li>
+
+                  <li className="nav-item dropdown">
+                      <a href="" className="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i classname="fas fa-plus"></i></a>
+                      <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a className="dropdown-item" href="#"  data-toggle="modal" data-target="#joinClass">Join Class</a>
+                      </div>
+                  </li>
+
+                  <li class="nav-item" onClick={handleLogout}>
+                      <a class="nav-link"> <i class="fas fa-power-off"></i> Logout</a>
+                  </li>
+
+
                 </ul>
+                  
+                  
+                  </div>
+                  </div>
+
+                </div>
+
+
+
+          }
+          
+          { !isAuthentication &&
+            <div className="collapse navbar-collapse" id="navbarNav">
               
-              
-              </div>
-              </div>
 
+              <div className="container">
+              <div className="row align-items-center">
 
+              <ul className="navbar-nav ml-auto" style={{width: "fit-content"}}>
 
-              {/* </div>
-              <li className="nav-item">
-                <a className="nav-link" href="#" tabIndex="-1" aria-disabled="true">
-                  Welcome to freeclassroom
-                </a>
-              </li>
-              <li className="nav-item active" onClick={() => navigate("/register")}>
-                <i className="fas fa-user-plus"></i> Sign Up
-              </li>
-              <li className="nav-item active" onClick={() => navigate("/login")}>
-                  <i className="fas fa-sign-in-alt" ></i> Login
-              </li> */}
-      
-          </div>
+              <li className="nav-item col" >
+                  <a className="nav-link" href="#" tabIndex="-1" aria-disabled="true" style={{width: "220px"}}>
+                    Welcome to freeclassroom
+                  </a>
+                </li>
+
+                  <li className="nav-item active col nav-signup" onClick={() => navigate("/register")}>
+                    <i className="fas fa-user-plus"></i> Sign up
+                  </li>
+                  <li className="nav-item active col" onClick={() => navigate("/login")}>
+                      <i className="fas fa-sign-in-alt" ></i> Login
+                  </li>
+                  </ul>
+                
+                
+                </div>
+                </div>
+        
+            </div>
+          }
         </div>
       </nav>
 

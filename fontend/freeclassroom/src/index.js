@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import store from './redux/store';
 import HomePage from './page/HomePage/Home';
 import { ToastContainer} from 'react-toastify';
 import {
@@ -14,11 +13,13 @@ import {
 import Login from './page/Auth/Login/Login';
 import Register from './page/Auth/Register/Register';
 import VerifyOTP from './page/Auth/VerifyOtp/VerifyOtp';
+import {store,persistor} from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
+    <PersistGate loading={null} persistor={persistor}>
     <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />} >
@@ -29,7 +30,7 @@ root.render(
 
               <Route path="register" element={<Register />} />
 
-              <Route path="verify-token" element={<VerifyOTP />} />
+              <Route path="verify-otp" element={<VerifyOTP />} />
               
             </Route>
 
@@ -38,7 +39,7 @@ root.render(
           <ToastContainer />
 
       </BrowserRouter>,
-    </React.StrictMode>
+    </PersistGate>
   </Provider>
 );
 

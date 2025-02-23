@@ -53,7 +53,7 @@ public class AuthenticationService {
     FileStorageService fileStorageService;
 
     public AuthenticationResponse authentication (AuthenticationRequest request) throws JOSEException {
-        AccountEntity account = (AccountEntity) accountRepository.findByUsername(request.getUsername()).orElseThrow(
+        AccountEntity account = accountRepository.findByUsername(request.getUsername()).orElseThrow(
                 () -> new CustomExeption(ErrorCode.USER_NOT_FOUND)
         );
 
@@ -61,7 +61,10 @@ public class AuthenticationService {
 
         if (result) {
             return AuthenticationResponse.builder()
-                    .token(jwtUtils.generateToken(account))
+                    .accessToken(jwtUtils.generateToken(account))
+                    .email(account.getEmail())
+                    .username(account.getUsername())
+                    .role(account.getRole())
                     .valid(true)
                     .build();
         }
@@ -130,13 +133,14 @@ public class AuthenticationService {
     public VerifyOtpResponse verifyOTP (VerifyOtpRequest request) {
 
         boolean result = otpService.validateOtp(request.getOtp());
-        if (result) {
-            AccountEntity account = accountRepository.findByUsername(request.getUsername()).orElseThrow(
-                    () -> new CustomExeption(ErrorCode.USER_NOT_FOUND)
-            );
-            account.setStatus(EnumAccountStatus.ACTIVE);
-            accountRepository.save(account);
-        }
+
+        if (!result) throw new CustomExeption(ErrorCode.NOT_VERIFY_OTP);
+
+        AccountEntity account = accountRepository.findByUsername(request.getUsername()).orElseThrow(
+                () -> new CustomExeption(ErrorCode.USER_NOT_FOUND)
+        );
+        account.setStatus(EnumAccountStatus.ACTIVE);
+        accountRepository.save(account);
 
         return VerifyOtpResponse.builder()
                 .valid(result)

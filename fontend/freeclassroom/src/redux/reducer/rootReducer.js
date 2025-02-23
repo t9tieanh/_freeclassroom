@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import counterReducer from './counterReducer';
+import verifyOtpReducer from './verifyOtpReducer';
+import updateUserReducer from './updateUserReducer';
 
 const rootReducer = combineReducers({
-    counter: counterReducer,
+    userVerifyOtp: verifyOtpReducer,
+    account: updateUserReducer,
 });
 
 export default rootReducer;

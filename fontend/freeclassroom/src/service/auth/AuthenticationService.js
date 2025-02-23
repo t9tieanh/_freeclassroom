@@ -15,4 +15,14 @@ const signUp = async (image, email, name, phone, username, password, role) => {
     return await axios.post(`${baseURL}sign-up`, form)
 }
 
-export default signUp
+
+const verifyOTPfunc = async (username, otp) => {
+    return await axios.post(`${baseURL}verify-otp`, {username, otp})
+}
+
+const login = async (username, password) => {
+    return await axios.post(`${baseURL}login`, {username, password})
+}
+
+
+export {signUp, verifyOTPfunc, login}

@@ -17,6 +17,10 @@ public enum ErrorCode {
     INVALID_DOB(1008,"dob must least {min}",HttpStatus.BAD_REQUEST),
     UN_AUTHENTICATED(1009,"Unauthenticated",HttpStatus.UNAUTHORIZED),
     OTP_SEND(1010,"Cannot send otp",HttpStatus.INTERNAL_SERVER_ERROR),
+
+
+    // dùng cho xác thực otp
+    NOT_VERIFY_OTP (1011,"Otp code invalid, try again",HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

@@ -49,12 +49,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("login")
-    public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) throws JOSEException {
+    public ApiResponse<AuthenticationResponse> login (@RequestBody AuthenticationRequest request) throws JOSEException {
 
         AuthenticationResponse response = authenticationService.authentication(request);
+        String message = (response.isValid()) ? "Log in successfully" : "Invalid username or password";
 
         return ApiResponse.<AuthenticationResponse>builder()
                 .code(200)
+                .message(message)
                 .result(response)
                 .build();
     }
