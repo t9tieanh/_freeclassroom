@@ -3,8 +3,37 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { FaGem, FaHeart } from 'react-icons/fa';
 import Paginate from '../../components/paging/Paginate';
 import { CiSearch } from "react-icons/ci";
+import { useEffect, useState } from 'react';
+import { getClassRoomByTeacher } from '../../service/class/ClassRoomService';
+
+export const LOCAL_HOST = "http://localhost:8080/freeclassroom"
+export const LIMIT = 3
 
 const ClassList = () => {
+
+    const [classLst, setClassLst] = useState([])
+    const [currentPage, setCurrentPage] = useState(0)
+    const [pageCount, setPageCount] = useState(0)
+    const [classQuantity, setClassQuantity] = useState(0)
+
+    useEffect(() => {
+        fetchClassList(0, LIMIT)
+    }, []); // Dependency array rỗng -> chỉ chạy một lần khi component mount
+
+    const fetchClassList = async(page, limit) => {
+        let data = await getClassRoomByTeacher(page,limit)
+
+        if (data && data.code && data.code === 200 && data.result) {
+            setClassLst(data.result.content)
+            setCurrentPage(data.result.pageable.pageNumber)
+            setClassQuantity(data.result.totalElements)
+            setPageCount(data.result.totalPages)
+        }
+    }
+
+    
+
+
     return (
         <>
         
@@ -49,39 +78,44 @@ const ClassList = () => {
                                 </div>
                             </form>
                             <div className="filter-result">
-                                <p className="mb-30 ff-montserrat totalcount"><i class="fa-solid fa-filter"></i>&nbsp;Total Class : 89</p>
-                                {[
-                                    { title: "Front End Developer", location: "Los Angeles", salary: "2500-3500/pm", type: "Full Time", initials: "FD" },
-                                    { title: "UI/UX Developer", location: "Los Angeles", salary: "2500-3500/pm", type: "Full Time", initials: "UX" },
-                                    { title: "Graphic Designer", location: "Los Angeles", salary: "2500-3500/pm", type: "Full Time", initials: "GD" }
-                                ].map((job, index) => (
-                                    <div key={index} className="job-box d-md-flex align-items-center justify-content-between mb-30 hover-shadow">
-                                        <div className="job-left my-4 d-md-flex align-items-center flex-wrap">
-                                            <div className="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
-                                            <img width={"120px"}
-                                            src="https://mdbcdn.b-cdn.net/img/new/standard/city/047.webp"
-                                            alt="Townhouses and Skyscrapers"
-                                            />
-                                                {/* {job.initials} */}
+                                <p className="mb-30 ff-montserrat totalcount"><i class="fa-solid fa-filter"></i>&nbsp;Total Class : {classQuantity}</p>
+
+
+                                { classLst.map((classroom, index) => {
+                                    return (
+
+                                        <div key={index} className="job-box d-md-flex align-items-center justify-content-between mb-30 hover-shadow">
+                                            <div className="job-left my-4 d-md-flex align-items-center flex-wrap">
+                                                <div className="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
+                                                <img 
+                                                src={`${LOCAL_HOST}/files/image/${classroom.coverImage}`}
+                                                alt="Townhouses and Skyscrapers"
+                                                />
+                                                    {/* {job.initials} */} 
+                                                </div>
+                                                <div className="job-content">
+                                                    <h5 className="text-center text-md-left">{classroom.name}</h5>
+                                                    <ul className="d-md-flex flex-wrap text-capitalize ff-open-sans">
+                                                        <li className="mr-md-4"><i className="zmdi zmdi-pin mr-2"></i> {classroom.unit}</li>
+                                                        <li className="mr-md-4"><i className="zmdi zmdi-money mr-2"></i> {classroom.teacherName}</li>
+                                                        <li className="mr-md-4"><i className="zmdi zmdi-time mr-2"></i> {classroom.code}</li>
+                                                    </ul>
+                                                </div>
                                             </div>
-                                            <div className="job-content">
-                                                <h5 className="text-center text-md-left">{job.title}</h5>
-                                                <ul className="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                                    <li className="mr-md-4"><i className="zmdi zmdi-pin mr-2"></i> {job.location}</li>
-                                                    <li className="mr-md-4"><i className="zmdi zmdi-money mr-2"></i> {job.salary}</li>
-                                                    <li className="mr-md-4"><i className="zmdi zmdi-time mr-2"></i> {job.type}</li>
-                                                </ul>
+                                            <div className="job-right my-4 flex-shrink-0">
+                                                <button className="btn d-block w-100 d-sm-inline-block btn-primary">Detail &nbsp;<i class="fa-solid fa-circle-info"></i></button>
                                             </div>
                                         </div>
-                                        <div className="job-right my-4 flex-shrink-0">
-                                            <button className="btn d-block w-100 d-sm-inline-block btn-primary">Detail &nbsp;<i class="fa-solid fa-circle-info"></i></button>
-                                        </div>
-                                    </div>
-                                ))}
+                                    )
+                                    
+                                })
+
+                                }
+
                             </div>
                         </div>
                         <nav className='paginate-container' aria-label="Page navigation">
-                            <Paginate  itemsPerPage = {3} pageCount = {3} currentPage = {2}/>
+                            <Paginate fetchClassList = {fetchClassList}  itemsPerPage = {LIMIT} pageCount = {pageCount} currentPage = {currentPage}/>
                         </nav>
                     </div>
                 </div>

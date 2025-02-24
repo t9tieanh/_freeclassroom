@@ -59,6 +59,7 @@ form.career-form.mb-60 {
         aside.ps-sidebar-root.css-1wvake5 {
             height: 100%;
         }
+          
     }
 
     .paginate-container {
@@ -76,4 +77,11 @@ form.career-form.mb-60 {
         }
 
     }
+
+    img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover; /* Hoặc contain */
+    }
 }
+

@@ -13,10 +13,10 @@ import {
 import Login from './page/Auth/Login/Login';
 import Register from './page/Auth/Register/Register';
 import VerifyOTP from './page/Auth/VerifyOtp/VerifyOtp';
-import Teacher from './page/Teacher/Teacher';
 import {store,persistor} from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import ClassList from './page/Class/ClassList';
+import ClassLayout from './layout/teacher/class';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -34,7 +34,7 @@ root.render(
 
               <Route path="verify-otp" element={<VerifyOTP />} />
 
-              <Route path='/class' element= {<Teacher/>} > 
+              <Route path='/class' element= {<ClassLayout/>} > 
                 <Route index element={<ClassList />} />
               </Route>
               

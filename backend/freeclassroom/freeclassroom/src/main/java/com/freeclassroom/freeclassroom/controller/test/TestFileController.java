@@ -12,11 +12,11 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/files")
-public class FileController {
+public class TestFileController {
 
     private final FileStorageService fileStorageService;
 
-    public FileController(FileStorageService fileStorageService) {
+    public TestFileController(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
     }
 

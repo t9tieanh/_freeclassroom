@@ -13,8 +13,10 @@ instance.defaults.withCredentials = true;
 
 instance.interceptors.request.use(function (config) {
 
-    // const accessToken = store.getState()?.account.account?.access_token
-    // config.headers["Authorization"] = `Bearer ${accessToken}`;
+    const accessToken = store.getState()?.account?.account?.accessToken
+    console.log(accessToken)
+    if (accessToken) 
+        config.headers["Authorization"] = `Bearer ${accessToken}`;
 
     // console.log(accessToken)
 
