@@ -3,7 +3,7 @@ import freeclassroom from '../../assets/media/others/classroom3.png';
 
 const HomePage = () => {
     return ( 
-        <>
+        <div className='homepage-container'>
             <div className="row">
                     <div className="col-6 main_section">
                         <h5>Welcome to</h5>
@@ -20,7 +20,7 @@ const HomePage = () => {
                         <img src = {freeclassroom} alt="Classroom" />
                     </div>
                 </div>
-        </>
+        </div>
     );
 }
 

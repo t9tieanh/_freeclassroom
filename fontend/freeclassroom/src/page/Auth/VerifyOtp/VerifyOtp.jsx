@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import "./VerifyOtp.scss";
-// import "../../../../node_modules/react-otp-input/example/src/index.css"
 import OtpInput from 'react-verify-otp';
 import '../../../../node_modules/react-verify-otp/dist/style.css'
 import { verifyOTPfunc } from "../../../service/auth/AuthenticationService";

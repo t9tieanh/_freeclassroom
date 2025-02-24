@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "mdbootstrap/css/mdb.min.css";
 import  "./Register.scss";
-import {clsx} from "clsx";
 import { toast } from 'react-toastify';
 import { signUp } from "../../../service/auth/AuthenticationService";
 import { useDispatch } from "react-redux";

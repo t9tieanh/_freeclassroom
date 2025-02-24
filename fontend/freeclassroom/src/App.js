@@ -21,7 +21,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <div className="container">
+      <div className="container-freeclassroom">
         <Outlet />
       </div>
       <Footer />
