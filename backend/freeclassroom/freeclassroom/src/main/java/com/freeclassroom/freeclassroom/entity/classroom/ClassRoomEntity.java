@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import java.util.List;
 import com.freeclassroom.freeclassroom.entity.AbstractEntity;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.engine.internal.Cascade;
 
 @Data
 @AllArgsConstructor
@@ -15,17 +16,23 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Table(name = "classroom")
 public class ClassRoomEntity extends AbstractEntity {
     String name;
-    String coverImage;
     String unit;
     String code;
     String detail;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")
     TeacherEntity teacher;
 
     @OneToMany(mappedBy = "classRoom", cascade = CascadeType.ALL)
     private List<MemberShipEntity> memberShips;
+
+    @OneToMany(mappedBy = "classRoom")
+    List <SectionEntity> sections;
+
+    @ManyToMany(mappedBy = "classrooms")
+    List <TagEntity> tags;
 }

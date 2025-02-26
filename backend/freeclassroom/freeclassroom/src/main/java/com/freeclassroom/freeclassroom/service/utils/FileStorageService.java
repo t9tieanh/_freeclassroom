@@ -1,10 +1,15 @@
 package com.freeclassroom.freeclassroom.service.utils;
 
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -69,4 +74,42 @@ public class FileStorageService {
     public String storeOtherFile(MultipartFile file) throws IOException {
         return storeFile(file, otherDir);
     }
+
+    // lấy file
+    // (Các biến baseDir, imageDir, documentDir, videoDir, otherDir đã có ở trên)
+
+    private Resource loadFile(Path dir, String fileName) throws MalformedURLException {
+        Path filePath = dir.resolve(fileName).normalize();
+        return new UrlResource(filePath.toUri());
+    }
+
+    public Resource getImage(String fileName) throws MalformedURLException {
+        return loadFile(imageDir, fileName);
+    }
+
+    public Resource getDocument(String fileName) throws MalformedURLException {
+        return loadFile(documentDir, fileName);
+    }
+
+    public Resource getVideo(String fileName) throws MalformedURLException {
+        return loadFile(videoDir, fileName);
+    }
+
+    public Resource getOtherFile(String fileName) throws MalformedURLException {
+        return loadFile(otherDir, fileName);
+    }
+
+    // resize ảnh
+    public byte[] resizeImage(String fileName, int width, int height) throws IOException {
+        Path filePath = imageDir.resolve(fileName).normalize();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        Thumbnails.of(filePath.toFile())
+                .size(width, height)
+                .outputFormat("jpg")
+                .toOutputStream(outputStream);
+
+        return outputStream.toByteArray();
+    }
+
 }

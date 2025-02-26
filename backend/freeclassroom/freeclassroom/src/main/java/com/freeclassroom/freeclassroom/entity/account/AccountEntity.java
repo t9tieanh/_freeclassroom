@@ -1,7 +1,12 @@
 package com.freeclassroom.freeclassroom.entity.account;
 
 import com.freeclassroom.freeclassroom.entity.AbstractEntity;
+import com.freeclassroom.freeclassroom.entity.user.StudentEntity;
+import com.freeclassroom.freeclassroom.entity.user.TeacherEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -12,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Table(name = "account")
 public class AccountEntity extends AbstractEntity {
     String username;
     String password;
@@ -23,4 +29,10 @@ public class AccountEntity extends AbstractEntity {
     public AccountEntity() {
         super();
     }
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    StudentEntity student;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    TeacherEntity teacher;
 }

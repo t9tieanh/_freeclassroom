@@ -1,0 +1,29 @@
+.section-container {
+
+    .card-body {
+        padding: 0px !important;
+    }
+
+    width: 100% !important;
+    .section {
+        width: 100%;
+
+        img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover; /* Hoặc contain */
+        }
+
+        .text-muted {
+            font-size: 15px;
+        }
+
+        .content-text-section {
+            min-width: 500px;
+        }
+    }    
+}
+
+.flex-grow-1  {
+    min-width: 100%;
+}

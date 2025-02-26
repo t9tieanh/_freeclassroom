@@ -103,13 +103,19 @@ public class AuthenticationService {
     @Transactional
     protected UserCreationResponse signUpForStudent(UserCreationRequest userCreationRequest) {
         AccountEntity accountEntity = accountMapper.toAccountEntity(userCreationRequest);
-        StudentEntity studentEntity = (StudentEntity) studentMapper.toStudentEntity(userCreationRequest);
+        StudentEntity studentEntity = studentMapper.toStudentEntity(userCreationRequest);
 
         UserCreationResponse userCreationResponse;
         // tiến hành lưu student
-        userCreationResponse = studentMapper.toUserCreationResponse(studentRepository.save(studentEntity));
+
+        studentEntity = studentRepository.save(studentEntity);
+
+        // lưu account
+//        accountEntity.setStudent(studentEntity);
+        studentEntity.setAccount(accountEntity);
         AccountEntity newAccount = accountRepository.save(accountEntity);
 
+        userCreationResponse = studentMapper.toUserCreationResponse(studentEntity);
         accountMapper.updateAccountResponse(newAccount, userCreationResponse);
 
         return userCreationResponse;
@@ -118,13 +124,19 @@ public class AuthenticationService {
     @Transactional
     protected UserCreationResponse signUpForTeacher(UserCreationRequest userCreationRequest) {
         AccountEntity accountEntity = accountMapper.toAccountEntity(userCreationRequest);
-        TeacherEntity teacherEntity = (TeacherEntity) teacherMapper.toTeacherEntity(userCreationRequest);
+        TeacherEntity teacherEntity = teacherMapper.toTeacherEntity(userCreationRequest);
 
-        UserCreationResponse userCreationResponse = null;
+        UserCreationResponse userCreationResponse;
+        // tiến hành lưu teacher
 
-        userCreationResponse = teacherMapper.toUserCreationResponse(teacherRepository.save(teacherEntity));
+        teacherEntity = teacherRepository.save(teacherEntity);
+
+        // lưu account
+        accountEntity.setTeacher(teacherEntity);
+        teacherEntity.setAccount(accountEntity);
         AccountEntity newAccount = accountRepository.save(accountEntity);
 
+        userCreationResponse = teacherMapper.toUserCreationResponse(teacherEntity);
         accountMapper.updateAccountResponse(newAccount, userCreationResponse);
 
         return userCreationResponse;

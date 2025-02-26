@@ -1,9 +1,9 @@
 package com.freeclassroom.freeclassroom.entity.user;
 
+import com.freeclassroom.freeclassroom.entity.account.AccountEntity;
 import com.freeclassroom.freeclassroom.entity.classroom.ClassRoomEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import jdk.jfr.Name;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -16,7 +16,12 @@ import java.util.List;
 @SuperBuilder
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "teacher")
 public class TeacherEntity extends UserEntity {
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "teacher")
     List<ClassRoomEntity> classRooms;
+
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    AccountEntity account;
 }

@@ -16,7 +16,10 @@ import VerifyOTP from './page/Auth/VerifyOtp/VerifyOtp';
 import {store,persistor} from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import ClassList from './page/Class/ClassList';
-import ClassLayout from './layout/teacher/class';
+import ClassLayout from './layout/teacher/class/classList/index';
+import ClassDetailLayout from './layout/teacher/class/classDetail';
+import ClassDetail from './page/Class/ClassDetail/ClassDetail';
+import PeopleComponent from './page/Class/ClassDetail/People';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -36,6 +39,11 @@ root.render(
 
               <Route path='/class' element= {<ClassLayout/>} > 
                 <Route index element={<ClassList />} />
+                
+                <Route path='class-detail' element={<ClassDetailLayout />}>
+                  <Route path='main' element={<ClassDetail />}/>
+                  <Route path='people' element={< PeopleComponent/>}/>
+                </Route>
               </Route>
               
             </Route>
