@@ -3,6 +3,7 @@ package com.freeclassroom.freeclassroom.controller.classroom;
 import com.freeclassroom.freeclassroom.dto.request.ClassRoomCreationRequest;
 import com.freeclassroom.freeclassroom.dto.response.ApiResponse;
 import com.freeclassroom.freeclassroom.dto.response.ClassRoomCreationResponse;
+import com.freeclassroom.freeclassroom.dto.response.classroom.ClassRoomDetailResponse;
 import com.freeclassroom.freeclassroom.service.classroom.ClassRoomService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class ClassRoomController {
     ClassRoomService classRoomService;
 
     @PostMapping
-    ApiResponse <ClassRoomCreationResponse> addClassRoom(@ModelAttribute ClassRoomCreationRequest classRoomCreationRequest) throws IOException {
+    ApiResponse <ClassRoomCreationResponse> addClassRoom(@RequestBody ClassRoomCreationRequest classRoomCreationRequest) throws IOException {
         ClassRoomCreationResponse response = classRoomService.addClassRoom(classRoomCreationRequest);
 
         return ApiResponse.<ClassRoomCreationResponse>builder()
@@ -51,6 +52,19 @@ public class ClassRoomController {
                 .result(response)
                 .build();
     }
+
+    @GetMapping("{id}")
+    public ApiResponse<ClassRoomDetailResponse> getClassDetail(@PathVariable String id) {
+        ClassRoomDetailResponse response = classRoomService.getClassRoomDetail(id);
+
+        return ApiResponse.<ClassRoomDetailResponse>builder()
+                .message("Get your class successful!")
+                .code(200)
+                .result(response)
+                .build();
+    }
+
+
 
 
 }

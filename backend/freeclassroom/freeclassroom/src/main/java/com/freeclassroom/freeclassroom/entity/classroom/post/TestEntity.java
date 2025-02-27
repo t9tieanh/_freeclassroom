@@ -2,6 +2,7 @@ package com.freeclassroom.freeclassroom.entity.classroom.post;
 
 import com.freeclassroom.freeclassroom.entity.classroom.SectionEntity;
 import com.freeclassroom.freeclassroom.enums.AllowTestTimeEnum;
+import com.freeclassroom.freeclassroom.enums.PostIconEnum;
 import com.freeclassroom.freeclassroom.enums.ScoringMethodEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -29,6 +30,8 @@ public class TestEntity extends PostEntity {
     String password;
     AllowTestTimeEnum allowTestTime;
     ScoringMethodEnum scoringMethod;
+
+    PostIconEnum postIconEnum = PostIconEnum.TEST;
 
     @ManyToOne
     @JoinColumn(name = "section_id")

@@ -25,20 +25,22 @@ public class SectionEntity extends AbstractEntity {
     String content;
     LocalDate createDate;
 
+
+
     @ManyToOne
     @JoinColumn(name = "classroom_id")
     ClassRoomEntity classRoom;
 
     @OneToMany(mappedBy = "section")
-    List<FileEntity> files;
-
-    @OneToMany(mappedBy = "section")
-    List<TestEntity> tests;
-
-    @OneToMany(mappedBy = "section")
-    List<ExerciseEntity> exercises;
-
-    @OneToMany(mappedBy = "section")
-    List<NoticeEntity> notices;
+    List<PostEntity> posts;
+//
+//    @OneToMany(mappedBy = "section")
+//    List<TestEntity> tests;
+//
+//    @OneToMany(mappedBy = "section")
+//    List<ExerciseEntity> exercises;
+//
+//    @OneToMany(mappedBy = "section")
+//    List<NoticeEntity> notices;
 
 }

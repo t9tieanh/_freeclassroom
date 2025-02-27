@@ -30,7 +30,7 @@ public class ClassRoomEntity extends AbstractEntity {
     @OneToMany(mappedBy = "classRoom", cascade = CascadeType.ALL)
     private List<MemberShipEntity> memberShips;
 
-    @OneToMany(mappedBy = "classRoom")
+    @OneToMany(mappedBy = "classRoom", cascade = CascadeType.ALL)
     List <SectionEntity> sections;
 
     @ManyToMany(mappedBy = "classrooms")

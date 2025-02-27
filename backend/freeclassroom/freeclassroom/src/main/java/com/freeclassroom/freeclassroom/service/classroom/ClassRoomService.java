@@ -2,14 +2,20 @@ package com.freeclassroom.freeclassroom.service.classroom;
 
 import com.freeclassroom.freeclassroom.dto.request.ClassRoomCreationRequest;
 import com.freeclassroom.freeclassroom.dto.response.ClassRoomCreationResponse;
+import com.freeclassroom.freeclassroom.dto.response.classroom.ClassRoomDetailResponse;
+import com.freeclassroom.freeclassroom.dto.response.classroom.classdetail.PostResponse;
+import com.freeclassroom.freeclassroom.dto.response.classroom.classdetail.SectionResponse;
 import com.freeclassroom.freeclassroom.entity.classroom.ClassRoomEntity;
+import com.freeclassroom.freeclassroom.entity.classroom.SectionEntity;
+import com.freeclassroom.freeclassroom.entity.classroom.post.PostEntity;
 import com.freeclassroom.freeclassroom.entity.user.TeacherEntity;
 import com.freeclassroom.freeclassroom.exception.CustomExeption;
 import com.freeclassroom.freeclassroom.exception.ErrorCode;
 import com.freeclassroom.freeclassroom.mapper.ClassRoomMapper;
-import com.freeclassroom.freeclassroom.repository.ClassRoomRepository;
+import com.freeclassroom.freeclassroom.mapper.classroom.SectionMapper;
+import com.freeclassroom.freeclassroom.mapper.classroom.post.PostMapper;
 import com.freeclassroom.freeclassroom.repository.TeacherRepository;
-import com.freeclassroom.freeclassroom.service.utils.FileStorageService;
+import com.freeclassroom.freeclassroom.repository.classroom.ClassRoomRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,6 +25,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -26,7 +35,11 @@ import java.io.IOException;
 public class ClassRoomService {
     ClassRoomRepository classRoomRepository;
     TeacherRepository teacherRepository;
+
     ClassRoomMapper classRoomMapper;
+    SectionMapper sectionMapper;
+    PostMapper postMapper;
+
 
     public ClassRoomCreationResponse addClassRoom(ClassRoomCreationRequest request) throws IOException {
 
@@ -49,6 +62,36 @@ public class ClassRoomService {
 
         return classRooms.map(classRoomMapper::toClassRoomCreationResponse);
     }
+
+    public ClassRoomDetailResponse getClassRoomDetail (String classRoomId) {
+        ClassRoomEntity classRoomEntity = classRoomRepository.findById(classRoomId)
+                .orElseThrow(() -> new CustomExeption(ErrorCode.USER_NOT_FOUND));
+
+        List<SectionEntity> sectionEntities = classRoomEntity.getSections();
+
+        ClassRoomDetailResponse classRoom = classRoomMapper.toResponseClassRoomDetail(classRoomEntity);
+
+        // lấy section
+        List<SectionResponse> sections = new ArrayList<>();
+
+        sectionEntities.stream().forEach(
+                section -> {
+                    SectionResponse sectionResponse = sectionMapper.toResponseForClassDetail(section);
+                    sections.add(sectionResponse);
+
+                    List<PostResponse> posts = section.getPosts().stream().map(
+                            postEntity -> postMapper.toResponseForClassDetail(postEntity)
+                    ).collect(Collectors.toList());
+
+                    sectionResponse.setPosts(posts);
+                }
+        );
+        classRoom.setSections(sections);
+
+        return classRoom;
+    }
+
+
 
 
 

@@ -2,6 +2,7 @@ package com.freeclassroom.freeclassroom.entity.classroom.post;
 
 import com.freeclassroom.freeclassroom.entity.classroom.SectionEntity;
 import com.freeclassroom.freeclassroom.enums.FileTypeEnum;
+import com.freeclassroom.freeclassroom.enums.PostIconEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -27,6 +28,8 @@ public class ExerciseEntity extends PostEntity {
     LocalDate endDate;
     String attachedFileUrl;
     FileTypeEnum fileTypeEnum;
+
+    PostIconEnum postIconEnum = PostIconEnum.EXERCISE;
 
     @ManyToOne
     @JoinColumn(name = "section_id")
