@@ -1,7 +1,7 @@
 import './ClassCover.scss'
 import { CiTimer } from "react-icons/ci";
 
-const ClassCover = () => {
+const ClassCover = ({name}) => {
 
     return (
         <>
@@ -10,7 +10,7 @@ const ClassCover = () => {
                     <div class="card-img-overlay">
                         <h5 class="card-title">
                             <blockquote className="blockquote title-class">
-                                <p className="mb-0">Lớp học Java 8.</p>
+                                <p className="mb-0">{name}</p>
                             </blockquote>
                         </h5>
                         <p class="card-text title-updatedate"><CiTimer />&nbsp;Last updated 3 mins ago</p>

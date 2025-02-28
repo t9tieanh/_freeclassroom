@@ -6,8 +6,6 @@ const ClassDetailLayout = () => {
   return (
     <>
     <div className="class-detail-content">
-
-    <ClassCover/>
     <Outlet/>
 
     {/* <div className="row">

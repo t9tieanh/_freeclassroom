@@ -1,28 +1,29 @@
-const ClassInfo = () => {
+import { FcAbout } from "react-icons/fc";
+import './ClassInfo.scss'
+import logo from '../../assets/media/button/down-chevron.png'
+import { LOCAL_HOST } from "../../page/Class/ClassList";
+
+const ClassInfo = ({detail,unit,tags}) => {
     return (
         <>
             <div className="card top-card" >
-                <div className="card-body">
+                <div className="card-body-custom">
                     <div className="pb-2">
-                        <h4 className="card-title mb-3">About</h4>
-                        <p>Hi I'm Jansh, has been the industry's standard dummy text To an English
-                            person, it will seem like
-                            simplified.</p>
-                        <ul className="ps-3 mb-0">
-                            <li>it will seem like simplified.</li>
-                            <li>To achieve this, it would be necessary to have uniform pronunciation</li>
-                        </ul>
-
+                        <h4 className="card-title mb-3"><FcAbout />&nbsp;About</h4>
+                        <p>{detail}</p>
                     </div>
                     <div className="pt-2">
-                        <h4 className="card-title mb-4">My Skill</h4>
+                        <h4 className="card-title mb-4">Relate to</h4>
                         <div className="d-flex gap-2 flex-wrap">
-                            <span className="badge badge-soft-secondary p-2">HTML</span>
-                            <span className="badge badge-soft-secondary p-2">Bootstrap</span>
-                            <span className="badge badge-soft-secondary p-2">Scss</span>
-                            <span className="badge badge-soft-secondary p-2">Javascript</span>
-                            <span className="badge badge-soft-secondary p-2">React</span>
-                            <span className="badge badge-soft-secondary p-2">Angular</span>
+                            {
+                                tags?.map((tag, index) => (
+                                    <span className="shadow-5 tag">
+                                        <img src={`${LOCAL_HOST}/files/image/${tag?.iconUrl}`} width={20}></img>
+                                        {tag?.name}
+                                    </span>
+                                ))
+                                
+                            }
                         </div>
                     </div>
                 </div>

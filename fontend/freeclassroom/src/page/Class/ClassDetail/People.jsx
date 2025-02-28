@@ -3,9 +3,11 @@ import Paginate from '../../../components/paging/Paginate'
 import { IoTrashBin } from "react-icons/io5";
 import NavBarComponent from '../../../components/ClassRoom/ClassDetail/NavBar';
 import { IoIosTime } from "react-icons/io";
+import ClassCover from "../../../components/ClassRoom/ClassCover"
 
 const PeopleComponent = () => {
     return <>
+        <ClassCover/>
 
         <div className="container-people ">
             <div className='col-md-12 navbar '>
@@ -127,9 +129,6 @@ const PeopleComponent = () => {
 
 
                 </div>
-
-
-
 
                 </div>
             </div>

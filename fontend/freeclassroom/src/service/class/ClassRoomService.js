@@ -11,4 +11,8 @@ const getClassRoomByTeacher = async (page,limit) => {
     })
 }
 
-export {getClassRoomByTeacher}
+const getClassDetail = async (id) => {
+    return await axios.get(`${baseURL}/${id}`)
+}
+
+export {getClassRoomByTeacher, getClassDetail}

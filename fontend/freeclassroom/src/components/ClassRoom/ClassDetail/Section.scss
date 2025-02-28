@@ -4,6 +4,7 @@
         padding: 0px !important;
     }
 
+    min-width: 800px;
     width: 100% !important;
     .section {
         width: 100%;
@@ -26,4 +27,30 @@
 
 .flex-grow-1  {
     min-width: 100%;
+}
+
+.chevron-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2px;
+    border: solid 2px rgb(151, 147, 147); 
+    border-radius: 10px;
+    width: 40px !important;
+    height: 40px !important;
+    background-color: whitesmoke;
+
+
+    .chevron-btn {
+        background: url('../../../assets/media/button/down-chevron.png') no-repeat center center;
+        background-size: contain; 
+        cursor: pointer; 
+    
+        &.collapsed {
+            background: url('../../../assets/media/button/right-chevron.png') no-repeat center center;
+            background-size: contain; 
+        }
+    }    
+
 }

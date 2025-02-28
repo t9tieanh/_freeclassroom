@@ -1,3 +1,14 @@
-.teacher-avatar {
-    padding: 20px
+.teacherinfo-container {
+    .teacher-avatar {
+        padding: 20px
+    }
+
+    .card-body {
+        padding: 0px;
+        
+        .row.align-items-center {
+            min-width: 100%;
+        }
+    }
+    
 }
