@@ -7,10 +7,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -29,6 +27,16 @@ public class FileController {
                 .contentType(MediaType.IMAGE_JPEG) // 🔥 Đặt MIME type phù hợp (có thể là PNG, JPEG,...)
 //                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"") // 🔥 Hiển thị file thay vì tải về
                 .body(resizedImage);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            String storedFileName = fileStorageService.storeFileAuto(file);
+            return ResponseEntity.ok("File đã lưu thành công: " + storedFileName);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Lỗi lưu file: " + e.getMessage());
+        }
     }
 
 }

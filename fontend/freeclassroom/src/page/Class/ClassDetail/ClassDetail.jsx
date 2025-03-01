@@ -6,11 +6,12 @@ import { useEffect, useState } from "react"
 import { getClassDetail } from "../../../service/class/ClassRoomService"
 import ClassCover from "../../../components/ClassRoom/ClassCover"
 import ChevronBtn from "../../../components/button/ChevronBtn"
+import { useParams } from "react-router-dom"
 
 const ClassDetail = () => {
 
-
-    const classId = "73967b27-28d7-46a1-a4ee-33eb09c6dc41"
+    const { id } = useParams();
+    // const classId = "73967b27-28d7-46a1-a4ee-33eb09c6dc41"
     const [classDetail, setClassDetail] = useState();
 
     useEffect(() => {
@@ -18,7 +19,7 @@ const ClassDetail = () => {
     }, []);
 
     const fetchClassDetail = async () => {
-        let data = await getClassDetail(classId)
+        let data = await getClassDetail(id)
         
         if (data && data.code && data.code === 200 && data.result) {
             setClassDetail(data.result)

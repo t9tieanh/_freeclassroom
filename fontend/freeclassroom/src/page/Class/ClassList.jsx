@@ -5,7 +5,7 @@ import Paginate from '../../components/paging/Paginate';
 import { CiSearch } from "react-icons/ci";
 import { useEffect, useState } from 'react';
 import { getClassRoomByTeacher } from '../../service/class/ClassRoomService';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LOCAL_HOST = "http://localhost:8080/freeclassroom"
 export const LIMIT = 3
@@ -105,12 +105,13 @@ const ClassList = () => {
                                                 </div>
                                             </div>
                                             <div className="job-right my-4 flex-shrink-0">
+                                                <Link to={`/class/class-detail/${classroom.id}`}>
+                                                
                                                 <button 
                                                  className="btn d-block w-100 d-sm-inline-block btn-primary"
-                                                 onClick={() => {
-                                                    navigate("/detail", { state: { classId: classroom?.id } });
-                                                }}
                                                 >Detail &nbsp;<i class="fa-solid fa-circle-info"></i></button>
+                                                
+                                                 </Link>
                                             </div>
                                         </div>
                                     )

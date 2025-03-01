@@ -41,8 +41,8 @@ root.render(
                 <Route index element={<ClassList />} />
                 
                 <Route path='class-detail' element={<ClassDetailLayout />}>
-                  <Route index element={<ClassDetail />} /> 
-                  <Route path='main' element={<ClassDetail />}/>
+                  <Route path=':id' element={<ClassDetail />} /> 
+                  <Route path='main/:id' element={<ClassDetail />}/>
                   <Route path='people' element={< PeopleComponent/>}/>
                 </Route>
               </Route>

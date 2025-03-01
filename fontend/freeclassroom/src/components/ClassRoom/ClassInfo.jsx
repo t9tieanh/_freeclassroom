@@ -2,6 +2,7 @@ import { FcAbout } from "react-icons/fc";
 import './ClassInfo.scss'
 import logo from '../../assets/media/button/down-chevron.png'
 import { LOCAL_HOST } from "../../page/Class/ClassList";
+import { CiShoppingTag } from "react-icons/ci";
 
 const ClassInfo = ({detail,unit,tags}) => {
     return (
@@ -13,7 +14,7 @@ const ClassInfo = ({detail,unit,tags}) => {
                         <p>{detail}</p>
                     </div>
                     <div className="pt-2">
-                        <h4 className="card-title mb-4">Relate to</h4>
+                        <h4 className="card-title mb-4"><CiShoppingTag />&nbsp; Relate to</h4>
                         <div className="d-flex gap-2 flex-wrap">
                             {
                                 tags?.map((tag, index) => (
@@ -22,7 +23,6 @@ const ClassInfo = ({detail,unit,tags}) => {
                                         {tag?.name}
                                     </span>
                                 ))
-                                
                             }
                         </div>
                     </div>
