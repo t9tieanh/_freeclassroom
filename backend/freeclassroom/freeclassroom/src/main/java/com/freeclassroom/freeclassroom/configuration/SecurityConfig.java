@@ -41,7 +41,9 @@ public class SecurityConfig {
     @Value("${spring.jwt.signerKey}")
     protected String SIGNER_KEY;
 
-    private final String[] PUBLIC_ENDPOINTS = {"/auth/sign-up", "/auth/login", "/api/files","/auth/verify-otp","/classroom","/files/**"};
+    private final CustomJwtDecoder jwtDecoder;
+
+    private final String[] PUBLIC_ENDPOINTS = {"/auth/reshfesh-token","/auth/sign-up", "/auth/login", "/api/files","/auth/verify-otp","/classroom","/files/**"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -63,7 +65,7 @@ public class SecurityConfig {
                 );
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()))
+                oauth2.jwt(jwt -> jwt.decoder(jwtDecoder))
         );
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Không sử dụng session
 
@@ -91,20 +93,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-
-        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS512");
-
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    };
 }

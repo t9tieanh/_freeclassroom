@@ -4,7 +4,6 @@ import com.freeclassroom.freeclassroom.service.utils.FileStorageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ import java.io.IOException;
 @RequestMapping("/files")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class FileController {
+public class UploadFileController {
     FileStorageService fileStorageService;
 
     @GetMapping("/image/{fileName}")

@@ -44,6 +44,29 @@ public class FileStorageService {
         Files.createDirectories(this.otherDir);
     }
 
+
+    public String storeFileAuto(MultipartFile file) throws IOException {
+        String contentType = file.getContentType();
+
+        if (contentType == null) {
+            return storeOtherFile(file);
+        }
+
+        if (contentType.startsWith("image/")) {
+            return storeImage(file);
+        } else if (contentType.startsWith("video/")) {
+            return storeVideo(file);
+        } else if (contentType.equals("application/pdf") ||
+                contentType.equals("application/msword") ||
+                contentType.equals("application/vnd.ms-powerpoint") ||
+                contentType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+            return storeDocument(file);
+        } else {
+            return storeOtherFile(file);
+        }
+    }
+
+
     private String getFileExtension(String originalFilename) {
         int lastDotIndex = originalFilename.lastIndexOf(".");
         return (lastDotIndex == -1) ? "" : originalFilename.substring(lastDotIndex);

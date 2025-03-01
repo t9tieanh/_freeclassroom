@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 public class AuthenticationResponse {
     String accessToken;
+    String refreshToken;
     String username;
     String email;
     EnumRole role;

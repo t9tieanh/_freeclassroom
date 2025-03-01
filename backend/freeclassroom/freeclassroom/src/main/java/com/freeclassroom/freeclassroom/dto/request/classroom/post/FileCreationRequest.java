@@ -1,11 +1,17 @@
 package com.freeclassroom.freeclassroom.dto.request.classroom.post;
 
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.multipart.MultipartFile;
 
-public class PostCreationRequest {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class FileCreationRequest {
     String title;
     String content;
     String sectionId;
-    String fileUrl;
     MultipartFile file;
 }

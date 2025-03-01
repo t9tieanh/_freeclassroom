@@ -21,9 +21,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "notice")
 public class NoticeEntity extends PostEntity {
 
-    PostIconEnum postIcon = PostIconEnum.NOTICE;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "section_id")
-    SectionEntity section;
+    @PrePersist
+    public void prePersist() {
+        if (getPostIcon() == null) { // Chỉ set nếu chưa có giá trị
+            setPostIcon(PostIconEnum.NOTICE);
+        }
+    }
 }

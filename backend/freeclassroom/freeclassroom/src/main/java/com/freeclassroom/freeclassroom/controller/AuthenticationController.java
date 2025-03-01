@@ -1,12 +1,10 @@
 package com.freeclassroom.freeclassroom.controller;
 
 import com.freeclassroom.freeclassroom.dto.request.AuthenticationRequest;
+import com.freeclassroom.freeclassroom.dto.request.ReshfeshTokenRequest;
 import com.freeclassroom.freeclassroom.dto.request.UserCreationRequest;
 import com.freeclassroom.freeclassroom.dto.request.VerifyOtpRequest;
-import com.freeclassroom.freeclassroom.dto.response.ApiResponse;
-import com.freeclassroom.freeclassroom.dto.response.AuthenticationResponse;
-import com.freeclassroom.freeclassroom.dto.response.UserCreationResponse;
-import com.freeclassroom.freeclassroom.dto.response.VerifyOtpResponse;
+import com.freeclassroom.freeclassroom.dto.response.*;
 import com.freeclassroom.freeclassroom.service.auth.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
@@ -15,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/auth")
@@ -57,6 +56,17 @@ public class AuthenticationController {
         return ApiResponse.<AuthenticationResponse>builder()
                 .code(200)
                 .message(message)
+                .result(response)
+                .build();
+    }
+
+    @PostMapping("reshfesh-token")
+    public ApiResponse<ReshfeshTokenResponse> login (@RequestBody ReshfeshTokenRequest request) throws JOSEException, ParseException {
+
+        ReshfeshTokenResponse response = authenticationService.reshfeshToken(request);
+
+        return ApiResponse.<ReshfeshTokenResponse>builder()
+                .code(200)
                 .result(response)
                 .build();
     }

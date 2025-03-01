@@ -5,8 +5,6 @@ import com.freeclassroom.freeclassroom.dto.request.classroom.SectionCreationRequ
 import com.freeclassroom.freeclassroom.dto.response.ApiResponse;
 import com.freeclassroom.freeclassroom.dto.response.ClassRoomCreationResponse;
 import com.freeclassroom.freeclassroom.dto.response.classroom.SectionCreationResponse;
-import com.freeclassroom.freeclassroom.entity.classroom.SectionEntity;
-import com.freeclassroom.freeclassroom.service.classroom.ClassRoomService;
 import com.freeclassroom.freeclassroom.service.classroom.SectionService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

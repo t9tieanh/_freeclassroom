@@ -1,13 +1,19 @@
 package com.freeclassroom.freeclassroom.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 
 public enum PostIconEnum {
-    NOTICE("fa-solid fa-messages"),
-    TEST("fa-regular fa-list-dropdown"),
-    EXERCISE("fa-solid fa-upload")
+    NOTICE("notice.png"),
+    TEST("test.png"),
+    EXERCISE("exercise.png"),
+    FILE("file.png"),
     ;
 
+    @JsonValue
+    public String getValue() {
+        return icon;
+    }
 
     private final String icon;
 

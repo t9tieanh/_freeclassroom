@@ -18,6 +18,11 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "teacher")
 public class TeacherEntity extends UserEntity {
+
+    String description;
+    String position;
+    String email;
+
     @OneToMany(mappedBy = "teacher")
     List<ClassRoomEntity> classRooms;
 

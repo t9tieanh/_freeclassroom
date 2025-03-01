@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
@@ -20,6 +21,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "post")
 public class PostEntity extends AbstractEntity {
     String title;
     String content;
@@ -28,7 +31,9 @@ public class PostEntity extends AbstractEntity {
     @Column(updatable = false)
     LocalDate createDate;
 
+    PostIconEnum postIcon;
+
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "section_id")
+    @JoinColumn(name = "section_id", nullable = false)
     SectionEntity section;
 }

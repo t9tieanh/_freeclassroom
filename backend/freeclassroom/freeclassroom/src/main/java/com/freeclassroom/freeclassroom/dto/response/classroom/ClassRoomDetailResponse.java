@@ -1,6 +1,7 @@
 package com.freeclassroom.freeclassroom.dto.response.classroom;
 
 import com.freeclassroom.freeclassroom.dto.response.classroom.classdetail.SectionResponse;
+import com.freeclassroom.freeclassroom.dto.response.classroom.classdetail.TeacherResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,4 +18,6 @@ public class ClassRoomDetailResponse {
     String code;
     String detail;
     List<SectionResponse> sections;
+    TeacherResponse teacher;
+    List<TagReponse> tag;
 }

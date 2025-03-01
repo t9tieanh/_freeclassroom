@@ -32,10 +32,7 @@ public class NoticeService {
         noticeEntity.setSection(sectionEntity);
         sectionEntity.getPosts().add(noticeEntity);
 
-         sectionRepository.save(sectionEntity);
-         return null;
+         return noticeMapper.toResponse(noticeRepository.save(noticeEntity));
     }
-
-
 
 }

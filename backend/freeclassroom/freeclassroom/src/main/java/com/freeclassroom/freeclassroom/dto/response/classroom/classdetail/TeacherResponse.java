@@ -13,4 +13,6 @@ public class TeacherResponse {
     String image;
     String name;
     String phone;
+    String description;
+    String position;
 }

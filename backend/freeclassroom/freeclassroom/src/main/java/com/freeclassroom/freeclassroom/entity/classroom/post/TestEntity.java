@@ -4,10 +4,7 @@ import com.freeclassroom.freeclassroom.entity.classroom.SectionEntity;
 import com.freeclassroom.freeclassroom.enums.AllowTestTimeEnum;
 import com.freeclassroom.freeclassroom.enums.PostIconEnum;
 import com.freeclassroom.freeclassroom.enums.ScoringMethodEnum;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,9 +28,10 @@ public class TestEntity extends PostEntity {
     AllowTestTimeEnum allowTestTime;
     ScoringMethodEnum scoringMethod;
 
-    PostIconEnum postIconEnum = PostIconEnum.TEST;
-
-    @ManyToOne
-    @JoinColumn(name = "section_id")
-    SectionEntity section;
+    @PrePersist
+    public void prePersist() {
+        if (getPostIcon() == null) {
+            setPostIcon(PostIconEnum.TEST);
+        }
+    }
 }

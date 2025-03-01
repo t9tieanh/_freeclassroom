@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,9 +22,14 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "section")
+@EntityListeners(AuditingEntityListener.class)
 public class SectionEntity extends AbstractEntity {
     String title;
     String content;
+    boolean emphasized;
+
+
+    @CreatedDate
     LocalDate createDate;
 
 
@@ -33,14 +40,5 @@ public class SectionEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "section")
     List<PostEntity> posts;
-//
-//    @OneToMany(mappedBy = "section")
-//    List<TestEntity> tests;
-//
-//    @OneToMany(mappedBy = "section")
-//    List<ExerciseEntity> exercises;
-//
-//    @OneToMany(mappedBy = "section")
-//    List<NoticeEntity> notices;
 
 }

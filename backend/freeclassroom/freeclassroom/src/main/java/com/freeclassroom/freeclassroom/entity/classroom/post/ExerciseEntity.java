@@ -3,10 +3,7 @@ package com.freeclassroom.freeclassroom.entity.classroom.post;
 import com.freeclassroom.freeclassroom.entity.classroom.SectionEntity;
 import com.freeclassroom.freeclassroom.enums.FileTypeEnum;
 import com.freeclassroom.freeclassroom.enums.PostIconEnum;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,9 +26,10 @@ public class ExerciseEntity extends PostEntity {
     String attachedFileUrl;
     FileTypeEnum fileTypeEnum;
 
-    PostIconEnum postIconEnum = PostIconEnum.EXERCISE;
-
-    @ManyToOne
-    @JoinColumn(name = "section_id")
-    SectionEntity section;
+    @PrePersist
+    public void prePersist() {
+        if (getPostIcon() == null) { // Chỉ set nếu chưa có giá trị
+            setPostIcon(PostIconEnum.EXERCISE);
+        }
+    }
 }

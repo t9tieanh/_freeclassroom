@@ -15,5 +15,6 @@ public class SectionResponse {
     String title;
     String content;
     LocalDate createDate;
+    boolean emphasized;
     List<PostResponse> posts;
 }

@@ -1,9 +1,6 @@
 package com.freeclassroom.freeclassroom.configuration;
 
 import com.freeclassroom.freeclassroom.entity.user.TeacherEntity;
-import com.freeclassroom.freeclassroom.repository.TeacherRepository;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
@@ -13,20 +10,17 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@RequiredArgsConstructor
-public class AuditorAwareImpl implements AuditorAware<TeacherEntity> {
-
-    TeacherRepository teacherRepository;
+public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
-    public Optional<TeacherEntity> getCurrentAuditor() {
+    public Optional<String> getCurrentAuditor() {
+        // Lấy thông tin từ SecurityContextHolder (Spring Security)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
             return Optional.empty();
         }
 
-        return teacherRepository.findByUsername(authentication.getName());
+        return Optional.of(authentication.getName()); // Trả về username của người dùng hiện tại
     }
 }

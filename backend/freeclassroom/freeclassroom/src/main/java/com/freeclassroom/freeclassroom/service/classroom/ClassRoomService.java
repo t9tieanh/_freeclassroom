@@ -3,6 +3,7 @@ package com.freeclassroom.freeclassroom.service.classroom;
 import com.freeclassroom.freeclassroom.dto.request.ClassRoomCreationRequest;
 import com.freeclassroom.freeclassroom.dto.response.ClassRoomCreationResponse;
 import com.freeclassroom.freeclassroom.dto.response.classroom.ClassRoomDetailResponse;
+import com.freeclassroom.freeclassroom.dto.response.classroom.TagReponse;
 import com.freeclassroom.freeclassroom.dto.response.classroom.classdetail.PostResponse;
 import com.freeclassroom.freeclassroom.dto.response.classroom.classdetail.SectionResponse;
 import com.freeclassroom.freeclassroom.entity.classroom.ClassRoomEntity;
@@ -12,7 +13,9 @@ import com.freeclassroom.freeclassroom.entity.user.TeacherEntity;
 import com.freeclassroom.freeclassroom.exception.CustomExeption;
 import com.freeclassroom.freeclassroom.exception.ErrorCode;
 import com.freeclassroom.freeclassroom.mapper.ClassRoomMapper;
+import com.freeclassroom.freeclassroom.mapper.TeacherMapper;
 import com.freeclassroom.freeclassroom.mapper.classroom.SectionMapper;
+import com.freeclassroom.freeclassroom.mapper.classroom.TagMapper;
 import com.freeclassroom.freeclassroom.mapper.classroom.post.PostMapper;
 import com.freeclassroom.freeclassroom.repository.TeacherRepository;
 import com.freeclassroom.freeclassroom.repository.classroom.ClassRoomRepository;
@@ -39,6 +42,8 @@ public class ClassRoomService {
     ClassRoomMapper classRoomMapper;
     SectionMapper sectionMapper;
     PostMapper postMapper;
+    TeacherMapper teacherMapper;
+    TagMapper tagMapper;
 
 
     public ClassRoomCreationResponse addClassRoom(ClassRoomCreationRequest request) throws IOException {
@@ -67,11 +72,14 @@ public class ClassRoomService {
         ClassRoomEntity classRoomEntity = classRoomRepository.findById(classRoomId)
                 .orElseThrow(() -> new CustomExeption(ErrorCode.USER_NOT_FOUND));
 
-        List<SectionEntity> sectionEntities = classRoomEntity.getSections();
-
         ClassRoomDetailResponse classRoom = classRoomMapper.toResponseClassRoomDetail(classRoomEntity);
 
+        // lấy teacher
+        classRoom.setTeacher(teacherMapper.toTeacherResponse(classRoomEntity.getTeacher()));
+
         // lấy section
+        List<SectionEntity> sectionEntities = classRoomEntity.getSections();
+
         List<SectionResponse> sections = new ArrayList<>();
 
         sectionEntities.stream().forEach(
@@ -87,6 +95,11 @@ public class ClassRoomService {
                 }
         );
         classRoom.setSections(sections);
+
+        // lấy tag
+        classRoom.setTag(classRoomEntity.getTags().stream().map(tagEntity ->
+            tagMapper.toTagReponse(tagEntity)
+        ).collect(Collectors.toList()));
 
         return classRoom;
     }

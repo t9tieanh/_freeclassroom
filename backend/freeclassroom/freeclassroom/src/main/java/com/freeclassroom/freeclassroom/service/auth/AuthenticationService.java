@@ -1,9 +1,12 @@
 package com.freeclassroom.freeclassroom.service.auth;
 
+import com.freeclassroom.freeclassroom.constant.TokenEnum;
 import com.freeclassroom.freeclassroom.dto.request.AuthenticationRequest;
+import com.freeclassroom.freeclassroom.dto.request.ReshfeshTokenRequest;
 import com.freeclassroom.freeclassroom.dto.request.UserCreationRequest;
 import com.freeclassroom.freeclassroom.dto.request.VerifyOtpRequest;
 import com.freeclassroom.freeclassroom.dto.response.AuthenticationResponse;
+import com.freeclassroom.freeclassroom.dto.response.ReshfeshTokenResponse;
 import com.freeclassroom.freeclassroom.dto.response.UserCreationResponse;
 import com.freeclassroom.freeclassroom.dto.response.VerifyOtpResponse;
 import com.freeclassroom.freeclassroom.entity.account.AccountEntity;
@@ -31,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -61,7 +65,8 @@ public class AuthenticationService {
 
         if (result) {
             return AuthenticationResponse.builder()
-                    .accessToken(jwtUtils.generateToken(account))
+                    .accessToken(jwtUtils.generateToken(account, TokenEnum.ACCESS_TOKEN))
+                    .refreshToken(jwtUtils.generateToken(account,TokenEnum.RESFESH_TOKEN))
                     .email(account.getEmail())
                     .username(account.getUsername())
                     .role(account.getRole())
@@ -70,6 +75,30 @@ public class AuthenticationService {
         }
 
         throw new CustomExeption(ErrorCode.UN_AUTHENTICATED);
+    }
+
+    public ReshfeshTokenResponse reshfeshToken (ReshfeshTokenRequest request) throws ParseException, JOSEException {
+        if (!introspectReshfeshToken(request.getReshfeshToken())) {
+            throw new CustomExeption(ErrorCode.UN_AUTHENTICATED);
+        }
+
+        String username = jwtUtils.getUserName(request.getReshfeshToken());
+        AccountEntity account = accountRepository.findByUsername(username).orElseThrow(
+                () -> new CustomExeption(ErrorCode.USER_NOT_FOUND)
+        );
+
+        return ReshfeshTokenResponse.builder()
+                .reshfeshToken(jwtUtils.generateToken(account, TokenEnum.RESFESH_TOKEN))
+                .accessToken(jwtUtils.generateToken(account, TokenEnum.ACCESS_TOKEN))
+                .build();
+    }
+
+    public Boolean introspectReshfeshToken (String token) throws JOSEException, ParseException {
+        return  jwtUtils.validToken(token, TokenEnum.RESFESH_TOKEN);
+    }
+
+    public Boolean introspectAccessToken (String token) throws JOSEException, ParseException {
+        return  jwtUtils.validToken(token, TokenEnum.ACCESS_TOKEN);
     }
 
 

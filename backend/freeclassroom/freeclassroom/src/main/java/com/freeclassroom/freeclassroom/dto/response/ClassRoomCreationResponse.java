@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClassRoomCreationResponse {
+    String id;
     String name;
     String coverImage;
     String unit;
