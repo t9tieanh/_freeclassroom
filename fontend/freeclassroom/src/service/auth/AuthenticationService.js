@@ -1,5 +1,6 @@
 import axios from "../../utils/CustomAxios";
 
+
 const baseURL = "auth/"
 
 const signUp = async (image, email, name, phone, username, password, role) => {
@@ -23,6 +24,5 @@ const verifyOTPfunc = async (username, otp) => {
 const login = async (username, password) => {
     return await axios.post(`${baseURL}login`, {username, password})
 }
-
 
 export {signUp, verifyOTPfunc, login}
