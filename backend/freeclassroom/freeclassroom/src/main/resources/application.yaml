@@ -33,6 +33,8 @@ spring:
 
   jwt:
     signerKey: BvniRriiBDSsZEp8ZpkLqOnOuCfRhi+l8JVPmMzFim31u8SR2aYV1Nk0yvYSlIiy
+    access-token-expiration: 7200000    # 2 tiếng (2 * 60 * 60 * 1000 ms)
+    refresh-token-expiration: 604800000 # 7 ngày (7 * 24 * 60 * 60 * 1000 ms)
 
 
   logging:

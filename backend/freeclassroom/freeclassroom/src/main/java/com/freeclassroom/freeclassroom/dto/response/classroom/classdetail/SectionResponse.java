@@ -12,9 +12,10 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SectionResponse {
+    String id;
     String title;
     String content;
     LocalDate createDate;
     boolean emphasized;
-    List<PostResponse> posts;
+//    List<PostResponse> posts;
 }

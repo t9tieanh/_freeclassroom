@@ -80,21 +80,23 @@ public class ClassRoomService {
         // lấy section
         List<SectionEntity> sectionEntities = classRoomEntity.getSections();
 
-        List<SectionResponse> sections = new ArrayList<>();
-
-        sectionEntities.stream().forEach(
-                section -> {
-                    SectionResponse sectionResponse = sectionMapper.toResponseForClassDetail(section);
-                    sections.add(sectionResponse);
-
-                    List<PostResponse> posts = section.getPosts().stream().map(
-                            postEntity -> postMapper.toResponseForClassDetail(postEntity)
-                    ).collect(Collectors.toList());
-
-                    sectionResponse.setPosts(posts);
-                }
-        );
-        classRoom.setSections(sections);
+//        List<SectionResponse> sections = new ArrayList<>();
+//
+//        sectionEntities.stream().forEach(
+//                section -> {
+//                    SectionResponse sectionResponse = sectionMapper.toResponseForClassDetail(section);
+//                    sections.add(sectionResponse);
+//
+//                    List<PostResponse> posts = section.getPosts().stream().map(
+//                            postEntity -> postMapper.toResponseForClassDetail(postEntity)
+//                    ).collect(Collectors.toList());
+//
+//                    sectionResponse.setPosts(posts);
+//                }
+//        );
+        classRoom.setSections(sectionEntities.stream().map(
+                sectionEntity -> sectionMapper.toResponseForClassDetail(sectionEntity)
+        ).collect(Collectors.toList()));
 
         // lấy tag
         classRoom.setTag(classRoomEntity.getTags().stream().map(tagEntity ->

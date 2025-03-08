@@ -10,5 +10,5 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReshfeshTokenResponse {
     String accessToken;
-    String reshfeshToken;
+    String refreshToken;
 }

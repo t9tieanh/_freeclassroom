@@ -1,31 +1,23 @@
-import { Outlet } from "react-router-dom";
-import ClassCover from "../../../../components/ClassRoom/ClassCover";
-import "./style.scss";
+
+import { Outlet } from 'react-router-dom';
 import SideBar from '../../../../components/Teacher/SideBar';
+import ClassCover from '../../../../components/ClassRoom/ClassCover';
 
-const ClassDetailLayout = () => {
-  return (
-    <>
+const ClassLayout = () => {
+    return (
+        <div className='class-list-content row full-width'>
 
-<div className='class-list-content row full-width'>
-    
-    <div className='side-bar col-2'>
-        <SideBar/>
-    </div>
+            <div className='side-bar col-2'>
+                <SideBar/>
+            </div>
 
-        <div className='main-content col-10'>
-          <div className="class-detail-content">
-            <Outlet/>
-          </div>
+            <div className='main-content col-10'>
+                <ClassCover/>
+                <Outlet/>
+            </div>
+            
         </div>
-        
-    </div>
+    );
+}
 
-    </>
-
-
-
-  );
-};
-
-export default ClassDetailLayout;
+export default ClassLayout

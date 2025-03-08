@@ -15,4 +15,5 @@ public class ClassRoomCreationRequest {
     String code;
     String detail;
     String teacherId;
+    String coverImage;
 }

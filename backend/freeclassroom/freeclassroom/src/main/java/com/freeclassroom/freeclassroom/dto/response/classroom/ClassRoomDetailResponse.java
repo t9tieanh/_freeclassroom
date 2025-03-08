@@ -17,6 +17,7 @@ public class ClassRoomDetailResponse {
     String unit;
     String code;
     String detail;
+    String coverImage;
     List<SectionResponse> sections;
     TeacherResponse teacher;
     List<TagReponse> tag;

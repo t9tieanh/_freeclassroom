@@ -3,6 +3,7 @@ import { LOCAL_HOST } from "../../../page/Class/ClassList";
 import './SectionDetail.scss'
 
 const SectionDetail = ({post}) => {
+
     return (
         <div className="card section p-3 section-detail-container">
             <div className="card-body">

@@ -11,6 +11,7 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import jakarta.persistence.EnumType;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,15 +22,24 @@ import java.util.Date;
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtils {
 
-    @NonFinal
     @Value("${spring.jwt.signerKey}")
-    protected String SIGNER_KEY;
+    private String SIGNER_KEY;
+
+    @Value("${spring.jwt.access-token-expiration}")
+    private Long accessTokenExpiration;
+
+    @Value("${spring.jwt.refresh-token-expiration}")
+    private Long refreshTokenExpiration;
+
 
 
     public String generateToken (AccountEntity account, TokenEnum tokenType) throws JOSEException {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+
+        Long date = (tokenType.equals(TokenEnum.ACCESS_TOKEN)) ? accessTokenExpiration : refreshTokenExpiration;
 
         //payload
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
@@ -37,7 +47,7 @@ public class JwtUtils {
                 .subject(account.getUsername()) // sub
                 .issuer("freeclassroom.com") // iss
                 .issueTime(new Date()) // iat
-                .expirationTime(new Date(System.currentTimeMillis() + 3600 * 1000)) // exp (1 giờ)
+                .expirationTime(new Date(System.currentTimeMillis() + date))
                 .claim("scope", account.getRole()) // Custom claim
                 .claim("type",tokenType.name())
                 .build();

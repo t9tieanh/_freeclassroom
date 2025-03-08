@@ -11,7 +11,7 @@ import Login from './page/Auth/Login/Login';
 import Register from './page/Auth/Register/Register';
 import VerifyOTP from './page/Auth/VerifyOtp/VerifyOtp';
 import ClassList from './page/Class/ClassList';
-import ClassLayout from './layout/teacher/class/classList/index';
+import ClassLayout from './layout/teacher/class/classDetail';
 import ClassDetail from './page/Class/ClassDetail/ClassDetail';
 import PeopleComponent from './page/Class/ClassDetail/People';
 

@@ -60,7 +60,7 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("reshfesh-token")
+    @PostMapping("refresh-token")
     public ApiResponse<ReshfeshTokenResponse> login (@RequestBody ReshfeshTokenRequest request) throws JOSEException, ParseException {
 
         ReshfeshTokenResponse response = authenticationService.reshfeshToken(request);

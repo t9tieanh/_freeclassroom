@@ -78,17 +78,17 @@ public class AuthenticationService {
     }
 
     public ReshfeshTokenResponse reshfeshToken (ReshfeshTokenRequest request) throws ParseException, JOSEException {
-        if (!introspectReshfeshToken(request.getReshfeshToken())) {
+        if (!introspectReshfeshToken(request.getRefreshToken())) {
             throw new CustomExeption(ErrorCode.UN_AUTHENTICATED);
         }
 
-        String username = jwtUtils.getUserName(request.getReshfeshToken());
+        String username = jwtUtils.getUserName(request.getRefreshToken());
         AccountEntity account = accountRepository.findByUsername(username).orElseThrow(
                 () -> new CustomExeption(ErrorCode.USER_NOT_FOUND)
         );
 
         return ReshfeshTokenResponse.builder()
-                .reshfeshToken(jwtUtils.generateToken(account, TokenEnum.RESFESH_TOKEN))
+                .refreshToken(jwtUtils.generateToken(account, TokenEnum.RESFESH_TOKEN))
                 .accessToken(jwtUtils.generateToken(account, TokenEnum.ACCESS_TOKEN))
                 .build();
     }

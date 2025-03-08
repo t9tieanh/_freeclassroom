@@ -24,6 +24,7 @@ public class ClassRoomEntity extends AbstractEntity {
     String unit;
     String code;
     String detail;
+    String coverImage;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")

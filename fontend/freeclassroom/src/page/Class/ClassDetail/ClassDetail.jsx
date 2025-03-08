@@ -11,7 +11,6 @@ import { useParams } from "react-router-dom"
 const ClassDetail = () => {
 
     const { id } = useParams();
-    // const classId = "73967b27-28d7-46a1-a4ee-33eb09c6dc41"
     const [classDetail, setClassDetail] = useState();
 
     useEffect(() => {
@@ -49,21 +48,15 @@ const ClassDetail = () => {
 
                     {
                         classDetail?.sections.map((section, index) => (
-                            <div key={index}>
+                            <div style={{width: '100%'}} key={index}>
                                 <SectionComponent index={index} section = {section} />
                             </div>
                         ))
                         
                     }
-{/* 
-                    <SectionComponent sections = {classDetail?.sections} /> */}
                 </div>
             </div>
-                
-
             </div>
-
-
         </div>
 
 
