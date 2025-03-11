@@ -1,9 +1,8 @@
 
 import { Outlet } from 'react-router-dom';
-import SideBar from '../../../../components/Teacher/SideBar';
-import ClassCover from '../../../../components/ClassRoom/ClassCover';
+import SideBar from '../../../components/Teacher/SideBar';
 
-const ClassLayout = () => {
+const ClassListLayout = () => {
     return (
         <div className='class-list-content row full-width'>
 
@@ -12,7 +11,6 @@ const ClassLayout = () => {
             </div>
 
             <div className='main-content col-10'>
-                <ClassCover/>
                 <Outlet/>
             </div>
             
@@ -20,4 +18,4 @@ const ClassLayout = () => {
     );
 }
 
-export default ClassLayout
+export default ClassListLayout

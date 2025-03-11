@@ -4,7 +4,7 @@ import React, {
   useState
 } from "react";
 import ReactDOM from "react-dom";
-import { LIMIT } from "../../page/Class/ClassList";
+import { LIMIT } from "../../../page/Class/ClassList";
 
 
 const Paginate = ({ fetchClassList,itemsPerPage, pageCount, currentPage}) => {

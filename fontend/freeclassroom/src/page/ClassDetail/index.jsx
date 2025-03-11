@@ -1,36 +1,25 @@
-import SectionComponent from "../../../components/ClassRoom/ClassDetail/Section"
-import TeacherInfo from "../../../components/ClassRoom/TeacherInfo"
-import ClassInfo from "../../../components/ClassRoom/ClassInfo"
-import NavBarComponent from "../../../components/ClassRoom/ClassDetail/NavBar"
-import { useEffect, useState } from "react"
-import { getClassDetail } from "../../../service/class/ClassRoomService"
-import ClassCover from "../../../components/ClassRoom/ClassCover"
-import ChevronBtn from "../../../components/common/button/ChevronBtn"
+import SectionComponent from "../../components/ClassDetail/Section/index.jsx"
+// import TeacherInfo from "../../components/ClassRoom/TeacherInfo"
+import TeacherInfo from "../../components/ClassDetail/TeacherInfo/index.jsx"
+import ClassInfo from "../../components/ClassDetail/ClassInfo/index.jsx"
+import NavBarComponent from "../../components/ClassDetail/NavBar/index.jsx"
+import { useContext, useEffect, useState } from "react"
+import { getClassDetail } from "../../service/class/ClassRoomService"
 import { useParams } from "react-router-dom"
+import { ClassDetailContext } from "../../context/ClassDetailContext.jsx"
 
 const ClassDetail = () => {
 
     const { id } = useParams();
-    const [classDetail, setClassDetail] = useState();
+
+    const { classDetail, fetchClassDetail } = useContext(ClassDetailContext);
 
     useEffect(() => {
-        fetchClassDetail()
+        fetchClassDetail(id)
     }, []);
-
-    const fetchClassDetail = async () => {
-        let data = await getClassDetail(id)
-        
-        if (data && data.code && data.code === 200 && data.result) {
-            setClassDetail(data.result)
-        }
-    }
-
-    console.log(classDetail?.sections)
 
 
     return <>
-
-    <ClassCover name = {classDetail?.name}/>
 
     <div className="row">
 
@@ -45,7 +34,6 @@ const ClassDetail = () => {
                     <NavBarComponent/>
                 </div>
                 <div className="card-body">
-
                     {
                         classDetail?.sections.map((section, index) => (
                             <div style={{width: '100%'}} key={index}>

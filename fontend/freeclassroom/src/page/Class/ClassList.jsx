@@ -1,7 +1,7 @@
 import './ClassList.scss'
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { FaGem, FaHeart } from 'react-icons/fa';
-import Paginate from '../../components/paging/Paginate';
+import Paginate from '../../components/common/paging/Paginate';
 import { CiSearch } from "react-icons/ci";
 import { useEffect, useState } from 'react';
 import { getClassRoomByTeacher } from '../../service/class/ClassRoomService';

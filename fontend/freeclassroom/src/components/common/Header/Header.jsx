@@ -1,11 +1,11 @@
 import React from "react";
-import logo from "../../assets/media/others/logo.png";
+import logo from "../../../assets/media/others/logo.png";
 import { useNavigate } from "react-router-dom";
 import { use } from "react";
 import "./Header.scss";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useSelector, useDispatch } from "react-redux";
-import { doDeleteUser } from "../../redux/action/updateUserAction";
+import { doDeleteUser } from "../../../redux/action/updateUserAction";
 import { toast } from "react-toastify";
 
 

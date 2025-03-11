@@ -10,13 +10,17 @@ import HomePage from './page/HomePage/Home';
 import Login from './page/Auth/Login/Login';
 import Register from './page/Auth/Register/Register';
 import VerifyOTP from './page/Auth/VerifyOtp/VerifyOtp';
-import ClassList from './page/Class/ClassList';
-import ClassLayout from './layout/teacher/class/classDetail';
-import ClassDetail from './page/Class/ClassDetail/ClassDetail';
-import PeopleComponent from './page/Class/ClassDetail/People';
+// import ClassList from './page/Class/ClassList';
+import ClassList from './page/ClassList/index.jsx';
+import ClassLayout from './layout/teacher/classDetail/index.jsx';
+// import ClassDetail from './page/Class/ClassDetail/ClassDetail';
+import ClassDetail from './page/ClassDetail/index.jsx';
+// import PeopleComponent from './page/Class/ClassDetail/People';
+import PeopleComponent from './page/People/index.jsx';
 
 import { ToastContainer } from 'react-toastify';
 import reportWebVitals from './reportWebVitals';
+import DefaultLayout from './layout/default/index.jsx';
 
 
 const router = createBrowserRouter([
@@ -24,20 +28,22 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
-      { path: 'verify-otp', element: <VerifyOTP /> },
-      {
-        path: 'class',
-        element: <ClassLayout />,
-        children: [
-          { index: true, element: <ClassList /> },
-          { path: ':id', element: <ClassDetail /> },
-          { path: 'main/:id', element: <ClassDetail /> },
-          { path: 'people', element: <PeopleComponent /> },
-        ],
-      },  
+      {path: '', element: <DefaultLayout /> , children: [
+        { index: true, element: <HomePage /> },
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
+        { path: 'verify-otp', element: <VerifyOTP /> },
+        { path: 'class', element: <ClassList /> },
+        {
+          path: 'class-detail',
+          element: <ClassLayout />,
+          children: [
+            { path: ':id', element: <ClassDetail /> },
+            { path: 'main/:id', element: <ClassDetail /> },
+            { path: 'people', element: <PeopleComponent /> },
+          ],
+        },  
+      ]},
     ],
   },
 ]);
