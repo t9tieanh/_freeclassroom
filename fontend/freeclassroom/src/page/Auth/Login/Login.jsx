@@ -5,6 +5,7 @@ import { login } from "../../../service/auth/AuthenticationService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doUpdateUser } from "../../../redux/action/updateUserAction";
+import { OAuthConfig } from "../../../conf/conf";
 
 
 const Login = () => {
@@ -17,6 +18,28 @@ const Login = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+
+  // gg authentication 
+  const handleContinueWithGoogle = async (e) => {
+    e.preventDefault();
+
+    try {
+      const callbackUrl = OAuthConfig.redirectUri;
+      const authUrl = OAuthConfig.authUri;
+      const googleClientId = OAuthConfig.clientId;
+  
+      const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
+        callbackUrl
+      )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
+  
+      console.log(targetUrl);
+
+      window.location.href = targetUrl;
+    } catch (error) {
+      console.error("OAuth error:", error);
+    }
   };
 
 
@@ -61,7 +84,8 @@ const Login = () => {
               <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                 <p className="lead fw-normal mb-0 me-3">Sign in with</p>
                 <a
-                  href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/LoginGoogleHandler&response_type=code&client_id=1039999698127-4im2l1mcar0nvg10282ri4gqi65trhvf.apps.googleusercontent.com&approval_prompt=force"
+                  href="#"
+                  onClick={(e) => {handleContinueWithGoogle(e)}}
                   className="btn btn-primary btn-floating mx-1"
                 >
                   <i className="fab fa-google"></i>

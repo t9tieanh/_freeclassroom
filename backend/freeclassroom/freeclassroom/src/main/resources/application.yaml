@@ -42,4 +42,11 @@ spring:
       org.springframework.security: DEBUG
 
 
+outbound:
+  identity:
+    clientId: "your-client-id"
+    clientSecret: "your-client-secret"
+    redirect-uri : "http://localhost:3000/authentication"
+
+
 

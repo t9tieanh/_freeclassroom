@@ -21,6 +21,7 @@ import PeopleComponent from './page/People/index.jsx';
 import { ToastContainer } from 'react-toastify';
 import reportWebVitals from './reportWebVitals';
 import DefaultLayout from './layout/default/index.jsx';
+import Authentication from './page/Auth/GgAuthenticate/index.jsx';
 
 
 const router = createBrowserRouter([
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       {path: '', element: <DefaultLayout /> , children: [
         { index: true, element: <HomePage /> },
         { path: 'login', element: <Login /> },
+        { path: 'authentication', element: <Authentication /> },
         { path: 'register', element: <Register /> },
         { path: 'verify-otp', element: <VerifyOTP /> },
         { path: 'class', element: <ClassList /> },

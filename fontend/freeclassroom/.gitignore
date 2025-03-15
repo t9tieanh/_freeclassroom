@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+#api 
+/google_api
+/src/conf/
+
+
 # testing
 /coverage
 

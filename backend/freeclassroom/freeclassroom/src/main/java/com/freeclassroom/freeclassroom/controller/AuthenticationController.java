@@ -5,6 +5,7 @@ import com.freeclassroom.freeclassroom.dto.request.ReshfeshTokenRequest;
 import com.freeclassroom.freeclassroom.dto.request.UserCreationRequest;
 import com.freeclassroom.freeclassroom.dto.request.VerifyOtpRequest;
 import com.freeclassroom.freeclassroom.dto.response.*;
+import com.freeclassroom.freeclassroom.service.account.AccountService;
 import com.freeclassroom.freeclassroom.service.auth.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
@@ -22,11 +23,34 @@ import java.text.ParseException;
 public class AuthenticationController {
 
     AuthenticationService authenticationService;
+    AccountService accountService;
+
+    @PostMapping("outbound/authentication")
+    ApiResponse<AuthenticationResponse> outBoundAuthentication(@RequestParam("code") String code) throws JOSEException {
+        var result = authenticationService.outBoundAuthentication(code);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("outbound/active-account")
+    ApiResponse<Boolean> outBoundAuthentication(@ModelAttribute UserCreationRequest request) throws  IOException {
+        Boolean result = accountService.ActiveGGAccount(request);
+
+        String message = (result) ? "Account has been created" : "Account has not been created";
+
+        return ApiResponse.<Boolean>builder()
+                .code(200)
+                .message(message)
+                .result(result)
+                .build();
+    }
 
     @PostMapping(value="sign-up", consumes = "multipart/form-data")
     public ApiResponse<UserCreationResponse> signUp(@ModelAttribute UserCreationRequest userCreationRequest) throws IOException {
 
-        UserCreationResponse response = authenticationService.signUp(userCreationRequest);
+        UserCreationResponse response = accountService.signUp(userCreationRequest);
 
         return ApiResponse.<UserCreationResponse>builder()
                 .code(200)
@@ -38,7 +62,7 @@ public class AuthenticationController {
     @PostMapping("verify-otp")
     public ApiResponse<VerifyOtpResponse> verifyOtp(@RequestBody VerifyOtpRequest verifyOtpRequest) throws IOException {
 
-        VerifyOtpResponse response = authenticationService.verifyOTP(verifyOtpRequest);
+        VerifyOtpResponse response = accountService.verifyOTP(verifyOtpRequest);
 
         return ApiResponse.<VerifyOtpResponse>builder()
                 .code(200)

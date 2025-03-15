@@ -11,6 +11,10 @@ const ClassLayout = () => {
 
     const [classDetail, setClassDetail] = useState();
 
+    
+
+    
+
     const fetchClassDetail = async (id) => {
         let data = await getClassDetail(id)
         
